@@ -34,7 +34,7 @@ class App extends React.Component<Props, GameState> {
     /**
      * state has type GameState as specified in the class inheritance.
      */
-    this.state = { cells: [] }
+    this.state = { cells: [], currentPlayer: '1', winner: null }
   }
 
   /**
@@ -45,7 +45,11 @@ class App extends React.Component<Props, GameState> {
   newGame = async () => {
     const response = await fetch('/newgame');
     const json = await response.json();
-    this.setState({ cells: json['cells'] });
+    this.setState({ 
+      cells: json['cells'], 
+      currentPlayer: json['currentPlayer'],
+      winner: json['winner']
+    });
   }
 
   /**
@@ -61,7 +65,32 @@ class App extends React.Component<Props, GameState> {
       e.preventDefault();
       const response = await fetch(`/play?x=${x}&y=${y}`)
       const json = await response.json();
-      this.setState({ cells: json['cells'] });
+      this.setState({ 
+        cells: json['cells'],
+        currentPlayer: json['currentPlayer'],
+        winner: json['winner']
+      });
+    }
+  }
+
+  undo = async (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
+    try {
+      const response = await fetch('/undo');
+      if (!response.ok) {
+        console.error('Undo failed:', response.statusText);
+        return;
+      }
+      const json = await response.json();
+      this.setState({ 
+        cells: json['cells'],
+        currentPlayer: json['currentPlayer'],
+        winner: json['winner']
+      });
+    } catch (error) {
+      console.error('Error calling undo:', error);
     }
   }
 
@@ -113,15 +142,22 @@ class App extends React.Component<Props, GameState> {
      * can treat HTML elements as code.
      * @see https://reactjs.org/docs/introducing-jsx.html
      */
+    let instructionText = '';
+    if (this.state.winner) {
+      instructionText = `Player ${this.state.winner} wins!`;
+    } else {
+      instructionText = `Current player: ${this.state.currentPlayer}`;
+    }
+
     return (
       <div>
+        <div id="instructions">{instructionText}</div>
         <div id="board">
           {this.state.cells.map((cell, i) => this.createCell(cell, i))}
         </div>
         <div id="bottombar">
           <button onClick={/* get the function, not call the function */this.newGame}>New Game</button>
-          {/* Exercise: implement Undo function */}
-          <button>Undo</button>
+          <button onClick={this.undo}>Undo</button>
         </div>
       </div>
     );

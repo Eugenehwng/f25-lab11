@@ -40,6 +40,19 @@ public class Game {
         return this.player;
     }
 
+    public List<Game> getHistory() {
+        return this.history;
+    }
+
+    public Game undo() {
+        if (this.history.isEmpty())
+            return this;
+        // Get the previous game state - it already has the correct history
+        Game previousGame = this.history.get(this.history.size() - 1);
+        // Return a new game instance with the previous state to ensure immutability
+        return new Game(previousGame.board, previousGame.player, previousGame.history);
+    }
+
     public Game play(int x, int y) {
         if (this.board.getCell(x, y) != null)
             return this;

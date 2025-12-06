@@ -5,18 +5,34 @@ import java.util.Arrays;
 public class GameState {
 
     private final Cell[] cells;
+    private final String currentPlayer;
+    private final String winner;
 
-    private GameState(Cell[] cells) {
+    private GameState(Cell[] cells, String currentPlayer, String winner) {
         this.cells = cells;
+        this.currentPlayer = currentPlayer;
+        this.winner = winner;
     }
 
     public static GameState forGame(Game game) {
         Cell[] cells = getCells(game);
-        return new GameState(cells);
+        // Player 0 = Player 1, Player 1 = Player 2
+        String currentPlayer = game.getPlayer() == Player.PLAYER0 ? "1" : "2";
+        Player winner = game.getWinner();
+        String winnerText = winner == null ? null : (winner == Player.PLAYER0 ? "1" : "2");
+        return new GameState(cells, currentPlayer, winnerText);
     }
 
     public Cell[] getCells() {
         return this.cells;
+    }
+
+    public String getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
+    public String getWinner() {
+        return this.winner;
     }
 
     /**
@@ -25,9 +41,10 @@ public class GameState {
      */
     @Override
     public String toString() {
+        String winnerJson = this.winner == null ? "null" : "\"" + this.winner + "\"";
         return """
-                { "cells": %s}
-                """.formatted(Arrays.toString(this.cells));
+                { "cells": %s, "currentPlayer": "%s", "winner": %s}
+                """.formatted(Arrays.toString(this.cells), this.currentPlayer, winnerJson);
     }
 
     private static Cell[] getCells(Game game) {
@@ -39,9 +56,9 @@ public class GameState {
                 boolean playable = false;
                 Player player = board.getCell(x, y);
                 if (player == Player.PLAYER0)
-                    text = "X";
+                    text = "1";
                 else if (player == Player.PLAYER1)
-                    text = "O";
+                    text = "2";
                 else if (player == null) {
                     playable = true;
                 }

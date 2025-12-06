@@ -1,47 +1,145 @@
-#board {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  background-color: #2196F3;
-  padding: 10px
-}
-
-.cell {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  font-size: 30px;
-  height: 25vmin;
-  text-align: center;
-}
-
-#bottombar {
-  height: 5vh;
-}
-
-#instructions {
-  height: 5vh;
-  background-color: white;
-  padding: 0px;
-  margin: 0px;
-  text-align: center;
-  border: 1px solid black;
-}
-
-#bottombar button {
-  width: 50%;
-  /* height: 100%; */
-  margin: 0;
-  padding: 0;
-  position: relative;
-  float: left;
-  font-size: 2vw
-}
-
+/* Modern color scheme with gradient background */
 html,
 body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.playable { background-color: red;}
+/* Instructions panel with modern styling */
+#instructions {
+  height: 60px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 15px 20px;
+  margin: 0 auto 20px;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  font-size: 24px;
+  font-weight: 600;
+  color: #2d3748;
+  max-width: 500px;
+  width: 90%;
+}
+
+/* Game board with modern styling */
+#board {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 15px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  gap: 8px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Cell styling with hover effects */
+.cell {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  padding: 30px;
+  font-size: 48px;
+  font-weight: bold;
+  height: 120px;
+  width: 120px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2d3748;
+  cursor: default;
+}
+
+/* Playable cells with hover effect */
+.cell.playable {
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  cursor: pointer;
+  border: 3px solid rgba(255, 200, 150, 0.8);
+}
+
+.cell.playable:hover {
+  background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.cell.playable:active {
+  transform: scale(0.98);
+}
+
+/* X and O styling */
+.cell:not(.playable) {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Bottom bar with buttons */
+#bottombar {
+  height: 60px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#bottombar button {
+  flex: 1;
+  max-width: 200px;
+  height: 50px;
+  margin: 0;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#bottombar button:first-child {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+#bottombar button:first-child:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+#bottombar button:last-child {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+#bottombar button:last-child:hover {
+  background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+#bottombar button:active {
+  transform: translateY(0);
+}
+
+/* Remove link styling for playable cells */
+a {
+  text-decoration: none;
+  color: inherit;
+}
